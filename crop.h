@@ -8,6 +8,7 @@ struct Date
     int month;
     int year;
 };
+
 struct Cropdata
 {
     int cropId;
@@ -17,6 +18,8 @@ struct Cropdata
     double price;
     int date, month, year;
 };
+
+bool isValidDate(int day, int month, int year);
 
 class Crop
 {
@@ -38,6 +41,7 @@ public:
     double getPrice() const;
     Date getDate() const;
     void updatePrice(double);
+    void updateDate(Date);
     virtual std::string getType() const = 0;
     virtual void display() const = 0;
     bool operator>(const Crop &) const;
@@ -52,6 +56,7 @@ public:
     std::string getType() const override;
     void display() const override;
 };
+
 class Vegetable : public Crop
 {
 public:
@@ -60,6 +65,7 @@ public:
     std::string getType() const override;
     void display() const override;
 };
+
 class Fruit : public Crop
 {
 public:
@@ -71,4 +77,5 @@ public:
 
 Cropdata convertToRecord(const Crop *);
 Crop *createCropFromRecord(const Cropdata &);
+
 #endif

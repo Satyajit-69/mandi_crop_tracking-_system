@@ -1,19 +1,19 @@
-
 #include "CropManager.h"
-#include <limits>
+#include <iostream>
+#include <vector>
 
 using namespace std;
 
 int main()
 {
-    vector<Crop*> crops;
+    vector<Crop *> crops;
     int choice = 0;
 
     try
     {
         loadPreviousData(crops);
     }
-    catch (const exception& e)
+    catch (const exception &e)
     {
         cout << "Loading error: " << e.what() << endl;
         clearCrops(crops);
@@ -33,16 +33,15 @@ int main()
         cout << "8. Exit" << endl;
         cout << "Enter choice: ";
 
-        if (!(cin >> choice))
-        {
-            cout << "Invalid input!" << endl;
-            cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            continue;
-        }
-
         try
         {
+            if (!readInt(choice))
+            {
+                cout << "Invalid input!" << endl;
+                choice = 0;
+                continue;
+            }
+
             switch (choice)
             {
             case 1:
@@ -73,7 +72,12 @@ int main()
                 throw invalid_argument("Invalid menu choice!");
             }
         }
-        catch (const exception& e)
+        catch (const InputEnded &)
+        {
+            cout << "\nInput ended. Program terminated." << endl;
+            choice = 8;
+        }
+        catch (const exception &e)
         {
             cout << "Error: " << e.what() << endl;
         }
